@@ -1,0 +1,14 @@
+{
+  "en:tr": {
+    "game design": "oyun tasarimi",
+    "user interface": "kullanici arayuzu",
+    "machine learning": "makine ogrenmesi",
+    "open source": "acik kaynak"
+  },
+  "tr:en": {
+    "oyun tasarimi": "game design",
+    "kullanici arayuzu": "user interface",
+    "makine ogrenmesi": "machine learning",
+    "acik kaynak": "open source"
+  }
+}

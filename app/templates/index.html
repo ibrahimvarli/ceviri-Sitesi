@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-shell">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="hero">
+        <div class="hero-copy">
+            <span class="eyebrow">Open Source PDF Translation Platform</span>
+            <h1>{{ app_name }}</h1>
+            <p>
+                PDF dosyalarinizi yukleyin, acik kaynak belge analizi ile cozumleyin,
+                yerel ceviri motoru ile hedef dile cevirin ve profesyonel cift sutunlu
+                PDF sonucunu tek tikla indirin.
+            </p>
+            <div class="hero-highlights">
+                <span>PDF yukleme</span>
+                <span>Argos Translate</span>
+                <span>OCR destegi</span>
+                <span>Cift sutunlu PDF</span>
+            </div>
+        </div>
+
+        <div class="hero-panel glass-card">
+            <form id="translateForm" class="upload-form" enctype="multipart/form-data">
+                <div class="dropzone">
+                    <input id="pdfFile" name="pdf_file" type="file" accept=".pdf" required>
+                    <label for="pdfFile">
+                        <span class="dropzone-icon">PDF</span>
+                        <strong>PDF dosyasini secin</strong>
+                        <small>Maksimum 20 MB boyutunda akademik, teknik veya kurumsal belgeler</small>
+                    </label>
+                </div>
+
+                <div class="form-grid">
+                    <label>
+                        <span>Kaynak dil</span>
+                        <select name="source_language">
+                            {% for code, label in source_languages.items() %}
+                            <option value="{{ code }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+
+                    <label>
+                        <span>Hedef dil</span>
+                        <select name="target_language">
+                            {% for code, label in target_languages.items() %}
+                            <option value="{{ code }}" {% if code == "en" %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+
+                <button id="submitButton" class="primary-button" type="submit">
+                    Cevirmeyi Baslat
+                </button>
+                <p class="form-note">
+                    Not: Sistem acik kaynak bilesenler kullanir. OCR icin makinede Tesseract
+                    kurulursa taranmis PDF'ler de islenebilir.
+                </p>
+            </form>
+        </div>
+    </header>
+
+    <main class="content-grid">
+        <section class="glass-card section-card">
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Neden Bu Uygulama?</span>
+                    <h2>Profesyonel is akisina uygun</h2>
+                </div>
+            </div>
+            <div class="feature-grid">
+                <article class="feature-item">
+                    <h3>Belge Analizi</h3>
+                    <p>Baslik, madde isareti, dipnot ve tablo bloklari ayristirilir; boylece ceviri daha duzenli uretilir.</p>
+                </article>
+                <article class="feature-item">
+                    <h3>Acik Kaynak Motor</h3>
+                    <p>Varsayilan olarak Argos Translate kullanan sistem, ucretsiz ve topluluk tarafindan gelistirilebilir yapidadir.</p>
+                </article>
+                <article class="feature-item">
+                    <h3>Profesyonel Cikti</h3>
+                    <p>Orijinal ve ceviri metni yan yana sunan cift sutunlu PDF ile inceleme ve dagitim daha kolay olur.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="glass-card section-card results-card">
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Ceviri Sonucu</span>
+                    <h2>Onizleme ve istatistikler</h2>
+                </div>
+                <a id="downloadLink" class="secondary-button hidden" href="#">Sonucu Indir</a>
+            </div>
+
+            <div id="statusBox" class="status-box info">
+                Sistem hazir. PDF secip ceviri islemini baslatabilirsiniz.
+            </div>
+
+            <div id="progressWrapper" class="progress-wrapper hidden">
+                <div class="progress-meta">
+                    <strong id="progressLabel">Hazirlaniyor</strong>
+                    <span id="progressValue">%0</span>
+                </div>
+                <div class="progress-track">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <p id="previewNote" class="preview-note hidden">
+                Hiz icin yalnizca ilk sayfalar onizlenir. Tum ceviri indirilen PDF dosyasinda bulunur.
+            </p>
+            <div id="statsGrid" class="stats-grid hidden"></div>
+            <div id="resultsContainer" class="result-list"></div>
+        </section>
+    </main>
+</div>
+{% endblock %}
